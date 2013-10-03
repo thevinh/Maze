@@ -18,19 +18,25 @@ public:
     NPC1(void);
     ~NPC1(void);
     
-    void makeMove(CCPoint playerPosition, CCTMXTiledMap* tileMap, CCTMXLayer *walls);
+    void makeMove(CCPoint pPlayerPosition, CCTMXTiledMap* tileMap, CCTMXLayer *walls);
     
     void move();
     
-    bool canMoveLeft(int pMoveWall);
-    bool canMoveRight(int pCharWall);
-    bool canMoveUp(int pMoveWall);
-    bool canMoveDown(int pCharWall);
+    bool canMoveLeft(CCPoint pMovePosition, CCTMXTiledMap* tileMap, CCTMXLayer *walls);
+    bool canMoveRight(CCPoint pCharPosition, CCTMXTiledMap* tileMap, CCTMXLayer *walls);
+    bool canMoveUp(CCPoint pMovePosition, CCTMXTiledMap* tileMap, CCTMXLayer *walls);
+    bool canMoveDown(CCPoint pCharPosition, CCTMXTiledMap* tileMap, CCTMXLayer *walls);
     
     void moveLeft(CCPoint pos);
     void moveRight(CCPoint pos);
     void moveUp(CCPoint pos);
     void moveDown(CCPoint pos);
+//    CC_SYNTHESIZE(CCPoint, firstStep, FirstStep);
+//    CC_SYNTHESIZE(CCPoint, secondStep, SecondStep);
+
+protected:
+    CC_SYNTHESIZE(int, firstWall, FirstWall);
+    CC_SYNTHESIZE(int, secondWall, SecondWall);
 
 };
 #endif /* defined(__Maze__NPC1__) */
