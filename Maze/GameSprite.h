@@ -21,6 +21,8 @@ public:
     
     static GameSprite* gameSpriteWithFile(const char* pszFileName);
     CCPoint tileCoordForPosition(CCPoint position, CCTMXTiledMap *tileMap);
+    void setIsMoveFalse();
+    int getWallProperty(int tileGid, CCTMXTiledMap *tileMap);
     
     virtual void setPosition(const CCPoint& pos);
     void makeMove(CCPoint pMovePosition, CCTMXTiledMap* tileMap, CCTMXLayer *walls);
@@ -36,7 +38,7 @@ public:
     void moveUp(CCPoint pos, CCTMXTiledMap *tileMap);
     void moveDown(CCPoint pos, CCTMXTiledMap *tileMap);
     
-    void setIsMoveFalse();
+    
     
 protected:
     CCPoint charPosition;

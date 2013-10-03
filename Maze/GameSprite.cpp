@@ -45,3 +45,15 @@ CCPoint GameSprite::tileCoordForPosition(cocos2d::CCPoint position, cocos2d::CCT
 void GameSprite::setIsMoveFalse(){
     setIsMove(false);
 }
+
+int GameSprite::getWallProperty(int tileGid, cocos2d::CCTMXTiledMap *tileMap){
+    CCDictionary *properties = tileMap->propertiesForGID(tileGid);
+    if (properties) {
+        CCString *wall = new CCString();
+        *wall = *properties->valueForKey("Wall");
+        CCString abc = *wall;
+        CCLog("%d", abc.intValue());
+        return abc.intValue();
+    }
+    return -1;
+}
