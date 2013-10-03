@@ -91,7 +91,7 @@ void Player::makeMove(cocos2d::CCPoint touchLocation, cocos2d::CCTMXTiledMap *ti
             moveWall = getWallProperty(tileGid, tileMap);
             this->setMoveWall(moveWall);
         }
-        this->movePositon = playerPos;
+        this->moveToPositon = playerPos;
         this->runAction(CCSequence::create(CCCallFunc::create(this, callfunc_selector(Player::move)),
                                            CCDelayTime::create(0.2f),
                                            CCCallFunc::create(this, callfunc_selector(Player::setIsMoveFalse)),
@@ -104,7 +104,7 @@ void Player::makeMove(cocos2d::CCPoint touchLocation, cocos2d::CCTMXTiledMap *ti
 }
 
 void Player::move(){
-    CCPoint pos = this->movePositon;
+    CCPoint pos = this->moveToPositon;
     
     switch (moveId) {
         case 1:
