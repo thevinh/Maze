@@ -95,6 +95,7 @@ void NPC1::makeMove(cocos2d::CCPoint playerPosition, cocos2d::CCTMXTiledMap *til
                     CCString abc = *wall;
                     CCLog("%d", abc.intValue());
                     moveWall = abc.intValue();
+                    this->setMoveWall(moveWall);
                 }
             }
             

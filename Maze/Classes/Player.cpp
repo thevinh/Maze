@@ -51,8 +51,12 @@ bool Player::canMoveUp(int pMoveWall){
 void Player::makeMove(cocos2d::CCPoint touchLocation, cocos2d::CCTMXTiledMap *tileMap, CCTMXLayer *walls){
     setIsMove(true);
     CCPoint playerPos = this->getPosition();
-    CCPoint diff = ccpSub(touchLocation, playerPos);
-    if (abs(diff.x) > abs(diff.y)) {
+    CCPoint diff = ccpSub(tileCoordForPosition(touchLocation, tileMap), tileCoordForPosition(playerPos, tileMap));
+    
+    if (diff.x == 0 && diff.y == 0) {
+        this->setIsMoveFalse();
+    }
+    else if (abs(diff.x) > abs(diff.y)) {
         if (diff.x > 0) {
             // move right
             playerPos.x += tileMap->getTileSize().width;
@@ -64,13 +68,14 @@ void Player::makeMove(cocos2d::CCPoint touchLocation, cocos2d::CCTMXTiledMap *ti
         }
     } else {
         if (diff.y > 0) {
-            // move up
-            playerPos.y += tileMap->getTileSize().height;
-            this->setMoveId(3);
-        } else {
             // move down
             playerPos.y -= tileMap->getTileSize().height;
             this->setMoveId(4);
+            
+        } else {
+            // move up
+            playerPos.y += tileMap->getTileSize().height;
+            this->setMoveId(3);
         }
     }
     
@@ -83,15 +88,8 @@ void Player::makeMove(cocos2d::CCPoint touchLocation, cocos2d::CCTMXTiledMap *ti
         CCPoint tileCoord = this->tileCoordForPosition(playerPos,tileMap);
         int tileGid = walls->tileGIDAt(tileCoord);
         if (tileGid) {
-            CCDictionary *properties = tileMap->propertiesForGID(tileGid);
-            if (properties) {
-                CCString *wall = new CCString();
-                *wall = *properties->valueForKey("Wall");
-                CCString abc = *wall;
-                CCLog("%d", abc.intValue());
-                moveWall = abc.intValue();
-                this->setMoveWall(moveWall);
-            }
+            moveWall = getWallProperty(tileGid, tileMap);
+            this->setMoveWall(moveWall);
         }
         this->movePositon = playerPos;
         this->runAction(CCSequence::create(CCCallFunc::create(this, callfunc_selector(Player::move)),
