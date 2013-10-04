@@ -20,13 +20,11 @@ class Level1Scene : public cocos2d::CCLayer
 {
 public:
     // Method 'init' in cocos2d-x returns bool, instead of 'id' in cocos2d-iphone (an object pointer)
-    virtual bool init();
+    ~Level1Scene(void);
     
-    // there's no 'id' in cpp, so we recommend to return the class instance pointer
-    static cocos2d::CCScene* scene();
-    
-    // preprocessor macro for "static create()" constructor ( node() deprecated )
-    CREATE_FUNC(Level1Scene);
+    virtual bool init(const char* tileMapPath);
+    static cocos2d::CCScene* scene(const char* tileMapPath);
+    static Level1Scene* create(const char* tileMapPath);
     
     bool ccTouchBegan(CCTouch *touch, CCEvent *event);
     
