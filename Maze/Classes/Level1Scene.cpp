@@ -14,13 +14,13 @@
 using namespace cocos2d;
 using namespace CocosDenshion;
 
-CCScene* Level1Scene::scene()
+CCScene* Level1Scene::scene(const char* tileMapPath)
 {
     // 'scene' is an autorelease object
     CCScene *scene = CCScene::create();
     
     // 'layer' is an autorelease object
-    Level1Scene *layer = Level1Scene::create();
+    Level1Scene *layer = Level1Scene::create(tileMapPath);
     
     // add layer as a child to scene
     scene->addChild(layer);
@@ -30,7 +30,7 @@ CCScene* Level1Scene::scene()
 }
 
 // on "init" you need to initialize your instance
-bool Level1Scene::init()
+bool Level1Scene::init(const char* tileMapPath)
 {
     //////////////////////////////
     // 1. super init first
@@ -46,7 +46,7 @@ bool Level1Scene::init()
     
     // init the map
     tileMap = new CCTMXTiledMap();
-    tileMap->initWithTMXFile("lvl1/map.tmx");
+    tileMap->initWithTMXFile(tileMapPath);
     background = tileMap->layerNamed("Background");
     this->addChild(tileMap);
     
@@ -147,13 +147,49 @@ void Level1Scene::update(float dt){
         if (!isGameOver && tileCoordForPosition(player->getCharPosition()).x == exitPointCoord.x
                         && tileCoordForPosition(player->getCharPosition()).y == exitPointCoord.y) {
             isGameOver = true;
-            player->runAction(CCSequence::create(CCDelayTime::create(0.2f),
-                                                 CCMoveBy::create(0.3f, ccp(0,tileMap->getTileSize().height)),
-                                                 NULL));
+            // with the map that the exit door is in the boundary
+            if (exitPointCoord.y == 0) {
+                player->runAction(CCSequence::create(CCDelayTime::create(0.2f),
+                                                     CCMoveBy::create(0.3f, ccp(0,tileMap->getTileSize().height)),
+                                                     NULL));
+            } else {
+                if (exitPointCoord.y == tileMap->getMapSize().height - 1) {
+                    player->runAction(CCSequence::create(CCDelayTime::create(0.2f),
+                                                         CCMoveBy::create(0.3f, ccp(0, -tileMap->getTileSize().height)),
+                                                         NULL));
+                }
+                else {
+                    if (exitPointCoord.x == 0) {
+                        player->runAction(CCSequence::create(CCDelayTime::create(0.2f),
+                                                             CCMoveBy::create(0.3f, ccp(-tileMap->getTileSize().width,0)),
+                                                             NULL));
+
+                    } else {
+                        player->runAction(CCSequence::create(CCDelayTime::create(0.2f),
+                                                             CCMoveBy::create(0.3f, ccp(tileMap->getTileSize().width,0)),
+                                                             NULL));
+                    }
+                }
+            }
             CCLog("Win cmnr");
-            
         }
-        
         this->unschedule(schedule_selector(Level1Scene::update));
+    }
+}
+
+Level1Scene::~Level1Scene(){
+    
+}
+
+Level1Scene* Level1Scene::create(const char *tileMapPath){
+    Level1Scene *pRet = new Level1Scene();
+    if (pRet && pRet->init(tileMapPath)) {
+        pRet->autorelease();
+        return pRet;
+    }
+    else{
+        delete pRet;
+        pRet = NULL;
+        return NULL;
     }
 }

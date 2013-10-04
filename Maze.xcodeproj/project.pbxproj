@@ -12,6 +12,7 @@
 		DEB1B3E817F929D70088D45D /* lvl1 in Resources */ = {isa = PBXBuildFile; fileRef = DEB1B3E717F929D70088D45D /* lvl1 */; };
 		DEB1B3EB17F94F4D0088D45D /* GameSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEB1B3E917F94F4D0088D45D /* GameSprite.cpp */; };
 		DEB1B3EE17F951970088D45D /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEB1B3EC17F951970088D45D /* Player.cpp */; };
+		DEB43BBB17FEB0AF00CF64C0 /* lvl2 in Resources */ = {isa = PBXBuildFile; fileRef = DEB43BBA17FEB0AF00CF64C0 /* lvl2 */; };
 		DECF171017F9251400CB6D8A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DECF170F17F9251400CB6D8A /* QuartzCore.framework */; };
 		DECF171217F9251400CB6D8A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DECF171117F9251400CB6D8A /* OpenGLES.framework */; };
 		DECF171417F9251500CB6D8A /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DECF171317F9251400CB6D8A /* OpenAL.framework */; };
@@ -282,6 +283,7 @@
 		DEB1B3EA17F94F4D0088D45D /* GameSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameSprite.h; sourceTree = "<group>"; };
 		DEB1B3EC17F951970088D45D /* Player.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Player.cpp; path = Classes/Player.cpp; sourceTree = "<group>"; };
 		DEB1B3ED17F951970088D45D /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Player.h; path = Classes/Player.h; sourceTree = "<group>"; };
+		DEB43BBA17FEB0AF00CF64C0 /* lvl2 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = lvl2; path = Resources/lvl2; sourceTree = "<group>"; };
 		DECF170C17F9251400CB6D8A /* Maze.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Maze.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DECF170F17F9251400CB6D8A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		DECF171117F9251400CB6D8A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -913,6 +915,7 @@
 		DECF172017F9251500CB6D8A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				DEB43BBA17FEB0AF00CF64C0 /* lvl2 */,
 				DEB1B3E717F929D70088D45D /* lvl1 */,
 				DECF172117F9251500CB6D8A /* CloseNormal.png */,
 				DECF172317F9251500CB6D8A /* CloseSelected.png */,
@@ -2066,6 +2069,7 @@
 				DECF17D217F9251700CB6D8A /* ChangeLog in Resources */,
 				DECF193C17F9251D00CB6D8A /* project.pbxproj in Resources */,
 				DEB1B3E817F929D70088D45D /* lvl1 in Resources */,
+				DEB43BBB17FEB0AF00CF64C0 /* lvl2 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
