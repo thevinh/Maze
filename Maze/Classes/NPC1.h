@@ -18,19 +18,13 @@ public:
     NPC1(void);
     ~NPC1(void);
     
-    void makeMove(CCPoint pPlayerPosition, CCTMXTiledMap* tileMap, CCTMXLayer *walls);
-    
-    void move();
+    bool makeMove(CCPoint pPlayerPosition, CCTMXTiledMap* tileMap, CCTMXLayer *walls);
     
     bool canMoveLeft(CCPoint pMovePosition, CCTMXTiledMap* tileMap, CCTMXLayer *walls);
     bool canMoveRight(CCPoint pCharPosition, CCTMXTiledMap* tileMap, CCTMXLayer *walls);
     bool canMoveUp(CCPoint pMovePosition, CCTMXTiledMap* tileMap, CCTMXLayer *walls);
     bool canMoveDown(CCPoint pCharPosition, CCTMXTiledMap* tileMap, CCTMXLayer *walls);
-    
-    void moveLeft(CCPoint pos);
-    void moveRight(CCPoint pos);
-    void moveUp(CCPoint pos);
-    void moveDown(CCPoint pos);
+
 //    CC_SYNTHESIZE(CCPoint, firstStep, FirstStep);
 //    CC_SYNTHESIZE(CCPoint, secondStep, SecondStep);
 

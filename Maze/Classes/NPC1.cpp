@@ -74,7 +74,7 @@ bool NPC1::canMoveUp(CCPoint pMovePosition, CCTMXTiledMap* tileMap, CCTMXLayer *
     
 }
 
-void NPC1::makeMove(cocos2d::CCPoint pPlayerPosition, cocos2d::CCTMXTiledMap *tileMap, cocos2d::CCTMXLayer *walls){
+bool NPC1::makeMove(cocos2d::CCPoint pPlayerPosition, cocos2d::CCTMXTiledMap *tileMap, cocos2d::CCTMXLayer *walls){
     setIsMove(true);
     int numMove = 2;
     CCPoint playerTileCoord = tileCoordForPosition(pPlayerPosition, tileMap);
@@ -230,6 +230,7 @@ void NPC1::makeMove(cocos2d::CCPoint pPlayerPosition, cocos2d::CCTMXTiledMap *ti
                                                CCCallFunc::create(this, callfunc_selector(NPC1::setIsMoveFalse)),
                                                NULL));
             this->charPosition = firstStep;
+            break;
         case 0:
             this->runAction(CCSequence::create(CCMoveTo::create(0.2f, firstStep),
                                                CCMoveTo::create(0.2f, secondStep),
@@ -237,136 +238,16 @@ void NPC1::makeMove(cocos2d::CCPoint pPlayerPosition, cocos2d::CCTMXTiledMap *ti
                                                NULL));
             this->charPosition = secondStep;
 
-            
         default:
             break;
     }
+    
+    if (tileCoordForPosition(this->charPosition, tileMap).x == playerTileCoord.x &&
+        tileCoordForPosition(this->charPosition, tileMap).y == playerTileCoord.y) {
+        CCLog("thua cmnr");
+        return true;
+        
+    }
+    else return false;
 }
 
-//void NPC1::makeMove(cocos2d::CCPoint playerPosition, cocos2d::CCTMXTiledMap *tileMap, CCTMXLayer *walls){
-//    setIsMove(true);
-//    int n = 1;
-//    while (n > 0) {
-//        
-//        CCPoint npcPos = this->getPosition();
-//        if (tileCoordForPosition(npcPos, tileMap).x - tileCoordForPosition(playerPosition, tileMap).x > 0) {
-//
-//            // move left
-//            npcPos.x -= tileMap->getTileSize().width;
-//            this->setMoveId(2);
-//        }
-//        
-//        else if (tileCoordForPosition(npcPos, tileMap).x - tileCoordForPosition(playerPosition, tileMap).x < 0) {
-//            // move right
-//            npcPos.x += tileMap->getTileSize().width;
-//            this->setMoveId(1);
-//        }
-//        
-//        else if (tileCoordForPosition(npcPos, tileMap).x - tileCoordForPosition(playerPosition, tileMap).x == 0) {
-//            if (tileCoordForPosition(npcPos, tileMap).y - tileCoordForPosition(playerPosition, tileMap).y > 0) {
-//                // move up
-//                npcPos.y += tileMap->getTileSize().height;
-//                this->setMoveId(3);
-//            } else {
-//                // move down
-//                npcPos.y -= tileMap->getTileSize().height;
-//                this->setMoveId(4);
-//            }
-//        }
-//        
-//        if (npcPos.x <= (tileMap->getMapSize().width * tileMap->getTileSize().width) &&
-//            npcPos.y <= (tileMap->getMapSize().height * tileMap->getTileSize().height) &&
-//            npcPos.y >= 0 &&
-//            npcPos.x >= 0 )
-//        {
-//            int moveWall = -1;
-//            CCPoint tileCoord = this->tileCoordForPosition(npcPos,tileMap);
-//            int tileGid = walls->tileGIDAt(tileCoord);
-//            if (tileGid) {
-//                CCDictionary *properties = tileMap->propertiesForGID(tileGid);
-//                if (properties) {
-//                    CCString *wall = new CCString();
-//                    *wall = *properties->valueForKey("Wall");
-//                    CCString abc = *wall;
-//                    CCLog("%d", abc.intValue());
-//                    moveWall = abc.intValue();
-//                    this->setMoveWall(moveWall);
-//                }
-//            }
-//            
-//            this->movePositon = npcPos;
-//            this->runAction(CCSequence::create(CCCallFunc::create(this, callfunc_selector(NPC1::move)),
-//                                               CCDelayTime::create(0.2f),
-//                                               CCCallFunc::create(this, callfunc_selector(NPC1::setIsMoveFalse)),
-//                                               NULL));
-//        }
-//        else this->setMoveId(0);
-//        n--;
-//    }
-//}
-
-void NPC1::move(){
-//    CCPoint pos = movePositon;
-//    switch (moveId) {
-//        case 1:
-//                    // move right
-//            if (canMoveRight(charWall)) {
-//                this->moveRight(pos);
-//                        //set charWall in new position
-//                this->setCharWall(getMoveWall());
-//                        
-//            }
-//                    
-//            break;
-//        case 2:
-//                    if (canMoveLeft(getMoveWall())) {
-//                        this->moveLeft(pos);
-//                        //set charWall in new position
-//                        this->setCharWall(getMoveWall());
-//                        
-//                    }
-//                    
-//                    break;
-//        case 3:
-//                    if (canMoveUp(getMoveWall())) {
-//                        this->moveUp(pos);
-//                        //set charWall in new position
-//                        this->setCharWall(getMoveWall());
-//                        
-//                    }
-//                    
-//                    break;
-//        case 4:
-//                    if (canMoveDown(charWall)) {
-//                        this->moveDown(pos);
-//                        //set charWall in new position
-//                        this->setCharWall(getMoveWall());
-//                        
-//                    }
-//            
-//            break;
-//        default:
-//            break;
-//    }
-}
-
-void NPC1::moveRight(cocos2d::CCPoint pos){
-    //    CCLog("move to the right");
-    this->runAction(CCMoveTo::create(0.2f, pos));
-    this->charPosition = pos;
-}
-
-void NPC1::moveLeft(cocos2d::CCPoint pos){
-    this->runAction(CCMoveTo::create(0.2f, pos));
-    this->charPosition = pos;
-}
-
-void NPC1::moveUp(cocos2d::CCPoint pos){
-    this->runAction(CCMoveTo::create(0.2f, pos));
-    this->charPosition = pos;
-}
-
-void NPC1::moveDown(cocos2d::CCPoint pos){
-    this->runAction(CCMoveTo::create(0.2f, pos));
-    this->charPosition = pos;
-}

@@ -38,7 +38,13 @@ bool Level1Scene::init()
     {
         return false;
     }
+    CCSize screenSize = CCDirector::sharedDirector()->getWinSize();
+    // init the picture for exit door
+    CCSprite* exitSprite = CCSprite::create("lvl1/exit.png");
+    exitSprite->setPosition(ccp(exitSprite->getContentSize().width/2,screenSize.height - exitSprite->getContentSize().height/2));
+    this->addChild(exitSprite);
     
+    // init the map
     tileMap = new CCTMXTiledMap();
     tileMap->initWithTMXFile("lvl1/map.tmx");
     background = tileMap->layerNamed("Background");
@@ -53,6 +59,12 @@ bool Level1Scene::init()
         CCLog("tile map has no objects object layer");
         return false;
     }
+    
+    //init exit point
+    CCDictionary *exitPointDic = objectGroup->objectNamed("exitPoint");
+    int x2 = ((CCString)*exitPointDic->valueForKey("x")).intValue();
+    int y2 =  ((CCString)*exitPointDic->valueForKey("y")).intValue();
+    exitPointCoord = tileCoordForPosition(ccp(x2,y2));
     
     // init player: position and charWall at this position
     CCDictionary *playerSpawnPoint = objectGroup->objectNamed("PlayerSpawnPoint");
@@ -123,15 +135,22 @@ void Level1Scene::ccTouchEnded(cocos2d::CCTouch *touch, cocos2d::CCEvent *event)
     CCPoint touchLocation = touch->getLocationInView();
     touchLocation = CCDirector::sharedDirector()->convertToGL(touchLocation);
     touchLocation = this->convertToNodeSpace(touchLocation);
-    if (!player->getIsMove() && !npc1->getIsMove()) {
+    if (!player->getIsMove() && !npc1->getIsMove() && !isGameOver) {
         player->makeMove(touchLocation, tileMap, walls);
-        this->schedule(schedule_selector(Level1Scene::update) , 0.2f);
+        this->schedule(schedule_selector(Level1Scene::update) , 0.3f);
     }
 }
 
 void Level1Scene::update(float dt){
     if (!player->getIsMove() && !npc1->getIsMove()) {
-        npc1->makeMove(player->getPosition(), tileMap, walls);
+        isGameOver = npc1->makeMove(player->getPosition(), tileMap, walls);
+        if (!isGameOver && tileCoordForPosition(player->getCharPosition()).x == exitPointCoord.x
+                        && tileCoordForPosition(player->getCharPosition()).y == exitPointCoord.y) {
+            isGameOver = true;
+            CCLog("Win cmnr");
+            
+        }
+        
         this->unschedule(schedule_selector(Level1Scene::update));
     }
 }

@@ -36,6 +36,7 @@
   <object name="NPC1SpawnPoint" x="178" y="121"/>
   <object x="648" y="167" width="14" height="20"/>
   <object x="686" y="93"/>
+  <object name="exitPoint" x="124" y="22"/>
  </objectgroup>
  <layer name="Walls" width="6" height="6">
   <data encoding="base64" compression="zlib">
