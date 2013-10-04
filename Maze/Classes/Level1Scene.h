@@ -45,6 +45,8 @@ private:
     CCTMXLayer *walls;
     Player *player;
     NPC1 *npc1;
+    CCPoint exitPointCoord;
+    bool isGameOver;
 
 };
 

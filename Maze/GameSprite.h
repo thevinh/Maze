@@ -41,7 +41,7 @@ public:
     
     
 protected:
-    CCPoint charPosition;
+    CC_SYNTHESIZE(CCPoint, charPosition, CharPosition)
     CCPoint moveToPositon;
     CC_SYNTHESIZE(int, moveId, MoveId);
     CC_SYNTHESIZE(int, charWall, CharWall);
