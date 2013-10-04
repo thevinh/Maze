@@ -147,6 +147,9 @@ void Level1Scene::update(float dt){
         if (!isGameOver && tileCoordForPosition(player->getCharPosition()).x == exitPointCoord.x
                         && tileCoordForPosition(player->getCharPosition()).y == exitPointCoord.y) {
             isGameOver = true;
+            player->runAction(CCSequence::create(CCDelayTime::create(0.2f),
+                                                 CCMoveBy::create(0.3f, ccp(0,tileMap->getTileSize().height)),
+                                                 NULL));
             CCLog("Win cmnr");
             
         }
