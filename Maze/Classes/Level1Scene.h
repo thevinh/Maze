@@ -22,9 +22,9 @@ public:
     // Method 'init' in cocos2d-x returns bool, instead of 'id' in cocos2d-iphone (an object pointer)
     ~Level1Scene(void);
     
-    virtual bool init(const char* tileMapPath);
-    static cocos2d::CCScene* scene(const char* tileMapPath);
-    static Level1Scene* create(const char* tileMapPath);
+    virtual bool init(int lvl);
+    static cocos2d::CCScene* scene(int lvl);
+    static Level1Scene* create(int lvl);
     
     bool ccTouchBegan(CCTouch *touch, CCEvent *event);
     
@@ -35,6 +35,8 @@ public:
     CCPoint tileCoordForPosition(CCPoint position);
     
     virtual void update(float dt);
+    
+    void changeScene();
 
     
 private:
@@ -45,6 +47,7 @@ private:
     NPC1 *npc1;
     CCPoint exitPointCoord;
     bool isGameOver;
+    int _lvl;
 
 };
 

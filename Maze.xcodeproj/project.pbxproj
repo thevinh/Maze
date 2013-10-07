@@ -271,6 +271,7 @@
 		DECF1A7B17F9252100CB6D8A /* cpSweep1D.c in Sources */ = {isa = PBXBuildFile; fileRef = DECF1A7A17F9252100CB6D8A /* cpSweep1D.c */; };
 		DECF1A7D17F9252100CB6D8A /* cpVect.c in Sources */ = {isa = PBXBuildFile; fileRef = DECF1A7C17F9252100CB6D8A /* cpVect.c */; };
 		DECF1A8417F9252100CB6D8A /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DECF1A8317F9252100CB6D8A /* AppDelegate.cpp */; };
+		DEE42B91180262EB00053F4B /* MediumScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEE42B8F180262EA00053F4B /* MediumScene.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -845,6 +846,8 @@
 		DECF1A8017F9252100CB6D8A /* Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
 		DECF1A8217F9252100CB6D8A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Classes/AppDelegate.h; sourceTree = "<group>"; };
 		DECF1A8317F9252100CB6D8A /* AppDelegate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = AppDelegate.cpp; path = Classes/AppDelegate.cpp; sourceTree = "<group>"; };
+		DEE42B8F180262EA00053F4B /* MediumScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MediumScene.cpp; path = Classes/MediumScene.cpp; sourceTree = "<group>"; };
+		DEE42B90180262EB00053F4B /* MediumScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MediumScene.h; path = Classes/MediumScene.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1994,6 +1997,8 @@
 				DECF1A8217F9252100CB6D8A /* AppDelegate.h */,
 				DECF1A8317F9252100CB6D8A /* AppDelegate.cpp */,
 				DE998AFB17FBCAEA0045B0C7 /* NPC1.cpp */,
+				DEE42B8F180262EA00053F4B /* MediumScene.cpp */,
+				DEE42B90180262EB00053F4B /* MediumScene.h */,
 				DE998AFC17FBCAEA0045B0C7 /* NPC1.h */,
 				DEB1B3E417F927610088D45D /* Level1Scene.cpp */,
 				DEB1B3E517F927610088D45D /* Level1Scene.h */,
@@ -2319,6 +2324,7 @@
 				DEB1B3EB17F94F4D0088D45D /* GameSprite.cpp in Sources */,
 				DEB1B3EE17F951970088D45D /* Player.cpp in Sources */,
 				DE998AFD17FBCAEA0045B0C7 /* NPC1.cpp in Sources */,
+				DEE42B91180262EB00053F4B /* MediumScene.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
