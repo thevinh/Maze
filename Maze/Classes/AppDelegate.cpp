@@ -36,7 +36,7 @@ bool AppDelegate::applicationDidFinishLaunching()
     pDirector->setAnimationInterval(1.0 / 60);
 
     // create a scene. it's an autorelease object
-    CCScene *pScene = Level1Scene::scene("lvl2/map.tmx");
+    CCScene *pScene = Level1Scene::scene(1);
 
     // run
     pDirector->runWithScene(pScene);

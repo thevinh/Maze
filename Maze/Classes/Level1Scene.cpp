@@ -10,17 +10,19 @@
 #include "cocos2d.h"
 #include "SimpleAudioEngine.h"
 #include "Player.h"
+#include "MediumScene.h"
 
+using namespace std;
 using namespace cocos2d;
 using namespace CocosDenshion;
 
-CCScene* Level1Scene::scene(const char* tileMapPath)
+CCScene* Level1Scene::scene(int lvl)
 {
     // 'scene' is an autorelease object
     CCScene *scene = CCScene::create();
     
     // 'layer' is an autorelease object
-    Level1Scene *layer = Level1Scene::create(tileMapPath);
+    Level1Scene *layer = Level1Scene::create(lvl);
     
     // add layer as a child to scene
     scene->addChild(layer);
@@ -30,7 +32,7 @@ CCScene* Level1Scene::scene(const char* tileMapPath)
 }
 
 // on "init" you need to initialize your instance
-bool Level1Scene::init(const char* tileMapPath)
+bool Level1Scene::init(int lvl)
 {
     //////////////////////////////
     // 1. super init first
@@ -38,6 +40,7 @@ bool Level1Scene::init(const char* tileMapPath)
     {
         return false;
     }
+    _lvl = lvl;
     CCSize screenSize = CCDirector::sharedDirector()->getWinSize();
     // init the picture for exit door
     CCSprite* exitSprite = CCSprite::create("lvl1/exit.png");
@@ -46,6 +49,8 @@ bool Level1Scene::init(const char* tileMapPath)
     
     // init the map
     tileMap = new CCTMXTiledMap();
+    char tileMapPath[15] = {0};
+    sprintf(tileMapPath, "lvl%d/map.tmx", lvl);
     tileMap->initWithTMXFile(tileMapPath);
     background = tileMap->layerNamed("Background");
     this->addChild(tileMap);
@@ -171,19 +176,34 @@ void Level1Scene::update(float dt){
                     }
                 }
             }
-            CCLog("Win cmnr");
+            
+            this->runAction(CCSequence::create(CCDelayTime::create(0.3f + 0.2f),
+                                               CCCallFunc::create(this, callfunc_selector(Level1Scene::changeScene)),
+                                               NULL));
+            
         }
         this->unschedule(schedule_selector(Level1Scene::update));
     }
+}
+
+void Level1Scene::changeScene(){
+    CCLog("Win cmnr");
+    CCScene *s = MediumScene::scene(_lvl);
+    CCDirector::sharedDirector()->setDepthTest(true);
+    
+    CCTransitionScene *transition = CCTransitionFade::create(2.0f, s);
+    
+    CCDirector::sharedDirector()->replaceScene(transition);
+
 }
 
 Level1Scene::~Level1Scene(){
     
 }
 
-Level1Scene* Level1Scene::create(const char *tileMapPath){
+Level1Scene* Level1Scene::create(int lvl){
     Level1Scene *pRet = new Level1Scene();
-    if (pRet && pRet->init(tileMapPath)) {
+    if (pRet && pRet->init(lvl)) {
         pRet->autorelease();
         return pRet;
     }
