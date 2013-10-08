@@ -42,6 +42,9 @@ bool Level1Scene::init(int lvl)
     }
     _lvl = lvl;
     CCSize screenSize = CCDirector::sharedDirector()->getWinSize();
+    SIZE_RATIO = (screenSize.width + screenSize.height) / (640 + 960);
+    SIZE_RATIO_X = screenSize.width /  960;
+    SIZE_RATIO_Y = screenSize.height / 640;
     // init the picture for exit door
     CCSprite* exitSprite = CCSprite::create("lvl1/exit.png");
     exitSprite->setPosition(ccp(exitSprite->getContentSize().width/2,screenSize.height - exitSprite->getContentSize().height/2));
@@ -52,11 +55,19 @@ bool Level1Scene::init(int lvl)
     char tileMapPath[15] = {0};
     sprintf(tileMapPath, "lvl%d/map.tmx", lvl);
     tileMap->initWithTMXFile(tileMapPath);
+    tileMap->setPosition(100* SIZE_RATIO_X, 0*SIZE_RATIO_Y);
     background = tileMap->layerNamed("Background");
+    // scale
+//    background->setPosition(0, 0);
+    background->setScaleX(SIZE_RATIO_X);
+    background->setScaleY(SIZE_RATIO_Y);
     this->addChild(tileMap);
     
     walls = tileMap->layerNamed("Walls");
-    walls->setVisible(false);
+    //scale
+    walls->setScaleX(SIZE_RATIO_X);
+    walls->setScaleY(SIZE_RATIO_Y);
+    walls->setVisible(true);
     
     // add player
     CCTMXObjectGroup *objectGroup = tileMap->objectGroupNamed("Objects");
@@ -66,10 +77,14 @@ bool Level1Scene::init(int lvl)
     }
     
     //init exit point
-    CCDictionary *exitPointDic = objectGroup->objectNamed("exitPoint");
+    // tile map position has multiplied with the ratio so when we calculate player and
+    // npc1 position, we just plus with tile map position, we
+    // dont need to multiplied wih the ratio anymore
+    CCDictionary *exitPointDic = objectGroup->objectNamed("ExitPoint");
     int x2 = ((CCString)*exitPointDic->valueForKey("x")).intValue();
     int y2 =  ((CCString)*exitPointDic->valueForKey("y")).intValue();
-    exitPointCoord = tileCoordForPosition(ccp(x2,y2));
+//    exitPointCoord = tileCoordForPosition(ccp(x2,y2));
+    exitPointCoord = tileCoordForPosition(ccp((x2 + tileMap->getPositionX())*SIZE_RATIO_X, (y2 + tileMap->getPositionY())*SIZE_RATIO_Y));
     
     // init player: position and charWall at this position
     CCDictionary *playerSpawnPoint = objectGroup->objectNamed("PlayerSpawnPoint");
@@ -77,10 +92,13 @@ bool Level1Scene::init(int lvl)
     int y = ((CCString)*playerSpawnPoint->valueForKey("y")).intValue();
     
     player = (Player*)GameSprite::gameSpriteWithFile("lvl1/player.png");
-    player->setPosition(ccp(x, y));
+//    player->setPosition(ccp(x, y));
+    player->setPosition(ccp(x*SIZE_RATIO_X + tileMap->getPositionX(), y*SIZE_RATIO_Y + tileMap->getPositionY()));
+    player->setScaleX(SIZE_RATIO_X);
+    player->setScaleY(SIZE_RATIO_Y);
     this->addChild(player);
     
-    CCPoint tileCoord = this->tileCoordForPosition(ccp(x, y));
+    CCPoint tileCoord = this->tileCoordForPosition(player->getPosition());
     int tileGid = walls->tileGIDAt(tileCoord);
     if (tileGid) {
         CCDictionary *properties = tileMap->propertiesForGID(tileGid);
@@ -99,9 +117,12 @@ bool Level1Scene::init(int lvl)
     int y1 = ((CCString)*npc1SpawnPoint->valueForKey("y")).intValue();
     
     npc1 = (NPC1*)GameSprite::gameSpriteWithFile("lvl1/mummy.png");
-    npc1->setPosition(ccp(x1, y1));
+//    npc1->setPosition(ccp(x1, y1));
+    npc1->setPosition(ccp(x1*SIZE_RATIO_X + tileMap->getPositionX(), y1*SIZE_RATIO_Y + tileMap->getPositionY()));
+    npc1->setScaleX(SIZE_RATIO_X);
+    npc1->setScaleY(SIZE_RATIO_Y);
     this->addChild(npc1);
-    tileCoord = this->tileCoordForPosition(ccp(x1, y1));
+    tileCoord = this->tileCoordForPosition(npc1->getPosition());
     tileGid = walls->tileGIDAt(tileCoord);
     if (tileGid) {
         CCDictionary *properties = tileMap->propertiesForGID(tileGid);
@@ -114,7 +135,6 @@ bool Level1Scene::init(int lvl)
         }
     }
 
-    
     player->setIsMove(false);
     npc1->setIsMove(false);
     // init
@@ -127,8 +147,8 @@ void Level1Scene::registerWithTouchDispatcher() {
 }
 
 CCPoint Level1Scene::tileCoordForPosition(cocos2d::CCPoint position){
-    int x = position.x/ tileMap->getTileSize().width;
-    int y = ((tileMap->getMapSize().height * tileMap->getTileSize().height) - position.y) / tileMap->getTileSize().height;
+    int x = (position.x - tileMap->getPositionX())/ tileMap->getTileSize().width / SIZE_RATIO_X;
+    int y = ((tileMap->getMapSize().height * tileMap->getTileSize().height * SIZE_RATIO_Y) - position.y + tileMap->getPositionY()) / tileMap->getTileSize().height / SIZE_RATIO_Y;
     return ccp(x, y);
 }
 

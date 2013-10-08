@@ -20,6 +20,7 @@ GameSprite::~GameSprite(){
 }
 
 GameSprite* GameSprite::gameSpriteWithFile(const char *pszFileName){
+    
     GameSprite *sprite = new GameSprite();
     if (sprite && sprite->initWithFile(pszFileName)) {
         CCLog("Ham khoi tao: %p dc goi", sprite);
@@ -37,8 +38,12 @@ void GameSprite::setPosition(const cocos2d::CCPoint &pos){
 }
 
 CCPoint GameSprite::tileCoordForPosition(cocos2d::CCPoint position, cocos2d::CCTMXTiledMap *tileMap){
-    int x = position.x/ tileMap->getTileSize().width;
-    int y = ((tileMap->getMapSize().height * tileMap->getTileSize().height) - position.y) / tileMap->getTileSize().height;
+    CCSize screenSize = CCDirector::sharedDirector()->getWinSize();
+    float SIZE_RATIO_X = screenSize.width /  960;
+    float SIZE_RATIO_Y = screenSize.height / 640;
+
+    int x = (position.x - tileMap->getPositionX())/ tileMap->getTileSize().width / SIZE_RATIO_X;
+    int y = ((tileMap->getMapSize().height * tileMap->getTileSize().height) - position.y/SIZE_RATIO_Y + tileMap->getPositionY()/ SIZE_RATIO_Y) / tileMap->getTileSize().height;
     return ccp(x, y);
 }
 

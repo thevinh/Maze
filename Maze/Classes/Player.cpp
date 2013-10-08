@@ -49,6 +49,9 @@ bool Player::canMoveUp(int pMoveWall){
 }
 
 void Player::makeMove(cocos2d::CCPoint touchLocation, cocos2d::CCTMXTiledMap *tileMap, CCTMXLayer *walls){
+    CCSize screenSize = CCDirector::sharedDirector()->getWinSize();
+    float SIZE_RATIO_X = screenSize.width /  960;
+    float SIZE_RATIO_Y = screenSize.height / 640;
     setIsMove(true);
     CCPoint playerPos = this->getPosition();
     CCPoint diff = ccpSub(tileCoordForPosition(touchLocation, tileMap), tileCoordForPosition(playerPos, tileMap));
@@ -59,30 +62,30 @@ void Player::makeMove(cocos2d::CCPoint touchLocation, cocos2d::CCTMXTiledMap *ti
     else if (abs(diff.x) > abs(diff.y)) {
         if (diff.x > 0) {
             // move right
-            playerPos.x += tileMap->getTileSize().width;
+            playerPos.x += tileMap->getTileSize().width*SIZE_RATIO_X;
             this->setMoveId(1);
         } else {
             //move left
-            playerPos.x -= tileMap->getTileSize().width;
+            playerPos.x -= tileMap->getTileSize().width*SIZE_RATIO_X;
             this->setMoveId(2);
         }
     } else {
         if (diff.y > 0) {
             // move down
-            playerPos.y -= tileMap->getTileSize().height;
+            playerPos.y -= tileMap->getTileSize().height*SIZE_RATIO_Y;
             this->setMoveId(4);
             
         } else {
             // move up
-            playerPos.y += tileMap->getTileSize().height;
+            playerPos.y += tileMap->getTileSize().height*SIZE_RATIO_Y;
             this->setMoveId(3);
         }
     }
     
-    if (playerPos.x <= (tileMap->getMapSize().width * tileMap->getTileSize().width) &&
-        playerPos.y <= (tileMap->getMapSize().height * tileMap->getTileSize().height) &&
-        playerPos.y >= 0 &&
-        playerPos.x >= 0 )
+    if (playerPos.x - tileMap->getPositionX() <= (tileMap->getMapSize().width * tileMap->getTileSize().width) &&
+        playerPos.y - tileMap->getPositionY() <= (tileMap->getMapSize().height * tileMap->getTileSize().height) &&
+        playerPos.y - tileMap->getPositionY() >= 0 &&
+        playerPos.x - tileMap->getPositionX() >= 0 )
     {
         int moveWall = -1;
         CCPoint tileCoord = this->tileCoordForPosition(playerPos,tileMap);
@@ -98,12 +101,16 @@ void Player::makeMove(cocos2d::CCPoint touchLocation, cocos2d::CCTMXTiledMap *ti
                                            NULL));
 //            this->move(playerPos, moveWall);
     }
-    else this->setMoveId(0);
+    else {
+        this->setMoveId(0);
+        this->setIsMove(false);
+    }
 
 
 }
 
 void Player::move(){
+    
     CCPoint pos = this->moveToPositon;
     
     switch (moveId) {
