@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="6" height="6" tilewidth="50" tileheight="50">
- <tileset firstgid="1" name="map" tilewidth="50" tileheight="50">
-  <image source="map.png" width="300" height="300"/>
+<map version="1.0" orientation="orthogonal" width="6" height="6" tilewidth="100" tileheight="100">
+ <tileset firstgid="1" name="map" tilewidth="100" tileheight="100">
+  <image source="map.png" width="600" height="600"/>
  </tileset>
- <tileset firstgid="37" name="wall_tiles" tilewidth="50" tileheight="50">
-  <image source="wall_tiles.png" width="200" height="50"/>
+ <tileset firstgid="37" name="wall_tiles" tilewidth="100" tileheight="100">
+  <image source="wall_tiles.png" width="400" height="100"/>
   <tile id="0">
    <properties>
     <property name="Wall" value="0"/>
@@ -32,9 +32,9 @@
   </data>
  </layer>
  <objectgroup name="Objects" width="6" height="6">
-  <object name="NPC1SpawnPoint" x="275" y="276"/>
-  <object name="PlayerSpawnPoint" x="74" y="226"/>
-  <object name="exitPoint" x="276" y="281"/>
+  <object name="NPC1SpawnPoint" x="547" y="548"/>
+  <object name="PlayerSpawnPoint" x="151" y="451"/>
+  <object name="ExitPoint" x="561" y="549"/>
  </objectgroup>
  <layer name="Walls" width="6" height="6">
   <data encoding="base64" compression="zlib">

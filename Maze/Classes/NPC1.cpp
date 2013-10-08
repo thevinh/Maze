@@ -83,7 +83,9 @@ bool NPC1::makeMove(cocos2d::CCPoint pPlayerPosition, cocos2d::CCTMXTiledMap *ti
     CCPoint movePositon;
     CCPoint firstStep;
     CCPoint secondStep;
-    
+    CCSize screenSize = CCDirector::sharedDirector()->getWinSize();
+    float SIZE_RATIO_X = screenSize.width /  960;
+    float SIZE_RATIO_Y = screenSize.height / 640;
     
     while ( ((playerTileCoord.x != npcTileCoord.x) || (playerTileCoord.y != npcTileCoord.y)) && numMove > 0 ) {
         if (npcTileCoord.x - playerTileCoord.x > 0) { // if need move left

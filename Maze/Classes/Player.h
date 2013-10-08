@@ -18,6 +18,7 @@ public:
     Player(void);
     ~Player(void);
     
+    
     void makeMove(CCPoint touchLocation, CCTMXTiledMap* tileMap, CCTMXLayer *walls);
     
     void move();

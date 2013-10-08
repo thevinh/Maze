@@ -48,6 +48,7 @@ protected:
     CC_SYNTHESIZE(int, moveWall, MoveWall);
     CC_SYNTHESIZE(bool, isMove, IsMove);
     
+    
 //    virtual void setPosition(const CCPoint& pos);
     
 };

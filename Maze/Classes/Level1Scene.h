@@ -48,6 +48,9 @@ private:
     CCPoint exitPointCoord;
     bool isGameOver;
     int _lvl;
+    float SIZE_RATIO;
+    float SIZE_RATIO_X;
+    float SIZE_RATIO_Y;
 
 };
 
