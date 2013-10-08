@@ -89,7 +89,7 @@ bool NPC1::makeMove(cocos2d::CCPoint pPlayerPosition, cocos2d::CCTMXTiledMap *ti
     
     while ( ((playerTileCoord.x != npcTileCoord.x) || (playerTileCoord.y != npcTileCoord.y)) && numMove > 0 ) {
         if (npcTileCoord.x - playerTileCoord.x > 0) { // if need move left
-            movePositon = ccp(tempNpcPosition.x - tileMap->getTileSize().width, tempNpcPosition.y);
+            movePositon = ccp(tempNpcPosition.x - tileMap->getTileSize().width*SIZE_RATIO_X, tempNpcPosition.y);
             if (canMoveLeft(movePositon, tileMap, walls)) { // if can move left
                 if (numMove == 2) {
                     firstStep = movePositon;
@@ -103,7 +103,7 @@ bool NPC1::makeMove(cocos2d::CCPoint pPlayerPosition, cocos2d::CCTMXTiledMap *ti
                 continue;
             } else { // if cant move left (but need move left) so we check move up and down
                 if (npcTileCoord.y - playerTileCoord.y > 0) {// if need move up
-                    movePositon = ccp(tempNpcPosition.x, tempNpcPosition.y + tileMap->getTileSize().height);
+                    movePositon = ccp(tempNpcPosition.x, tempNpcPosition.y + tileMap->getTileSize().height*SIZE_RATIO_Y);
                     if (canMoveUp(movePositon, tileMap, walls)) { // if can move up
                         if (numMove == 2) {
                             firstStep = movePositon;
@@ -118,7 +118,7 @@ bool NPC1::makeMove(cocos2d::CCPoint pPlayerPosition, cocos2d::CCTMXTiledMap *ti
                     else break;// stand still
                 } else {// if dont need move up
                     if (npcTileCoord.y - playerTileCoord.y < 0) { // if need move down
-                        movePositon = ccp(tempNpcPosition.x, tempNpcPosition.y - tileMap->getTileSize().height);
+                        movePositon = ccp(tempNpcPosition.x, tempNpcPosition.y - tileMap->getTileSize().height*SIZE_RATIO_Y);
                         if (canMoveDown(tempNpcPosition, tileMap, walls)) {
                             if (numMove == 2) {
                                 firstStep = movePositon;
@@ -138,7 +138,7 @@ bool NPC1::makeMove(cocos2d::CCPoint pPlayerPosition, cocos2d::CCTMXTiledMap *ti
             
         } else { // end of need move left
             if (npcTileCoord.x - playerTileCoord.x < 0) {
-                movePositon = ccp(tempNpcPosition.x + tileMap->getTileSize().width, tempNpcPosition.y);
+                movePositon = ccp(tempNpcPosition.x + tileMap->getTileSize().width*SIZE_RATIO_X, tempNpcPosition.y);
                 if (canMoveRight(tempNpcPosition, tileMap, walls)) { // if can move right
                     if (numMove == 2) {
                         firstStep = movePositon;
@@ -152,7 +152,7 @@ bool NPC1::makeMove(cocos2d::CCPoint pPlayerPosition, cocos2d::CCTMXTiledMap *ti
 
                 } else { // end of can move right
                     if (npcTileCoord.y - playerTileCoord.y > 0) {// if need move up
-                        movePositon = ccp(tempNpcPosition.x, tempNpcPosition.y + tileMap->getTileSize().height);
+                        movePositon = ccp(tempNpcPosition.x, tempNpcPosition.y + tileMap->getTileSize().height*SIZE_RATIO_Y);
                         if (canMoveUp(movePositon, tileMap, walls)) { // if can move up
                             if (numMove == 2) {
                                 firstStep = movePositon;
@@ -167,7 +167,7 @@ bool NPC1::makeMove(cocos2d::CCPoint pPlayerPosition, cocos2d::CCTMXTiledMap *ti
                         else break;// stand still
                     } else {// if dont need move up
                         if (npcTileCoord.y - playerTileCoord.y < 0) { // if need move down
-                            movePositon = ccp(tempNpcPosition.x, tempNpcPosition.y - tileMap->getTileSize().height);
+                            movePositon = ccp(tempNpcPosition.x, tempNpcPosition.y - tileMap->getTileSize().height*SIZE_RATIO_Y);
                             if (canMoveDown(tempNpcPosition, tileMap, walls)) {
                                 if (numMove == 2) {
                                     firstStep = movePositon;
@@ -187,7 +187,7 @@ bool NPC1::makeMove(cocos2d::CCPoint pPlayerPosition, cocos2d::CCTMXTiledMap *ti
                 }
             } else {
                 if (npcTileCoord.y - playerTileCoord.y > 0) {// if need move up
-                    movePositon = ccp(tempNpcPosition.x, tempNpcPosition.y + tileMap->getTileSize().height);
+                    movePositon = ccp(tempNpcPosition.x, tempNpcPosition.y + tileMap->getTileSize().height*SIZE_RATIO_Y);
                     if (canMoveUp(movePositon, tileMap, walls)) { // if can move up
                         if (numMove == 2) {
                             firstStep = movePositon;
@@ -202,7 +202,7 @@ bool NPC1::makeMove(cocos2d::CCPoint pPlayerPosition, cocos2d::CCTMXTiledMap *ti
                     else break;// stand still
                 } else {// if dont need move up
                     if (npcTileCoord.y - playerTileCoord.y < 0) { // if need move down
-                        movePositon = ccp(tempNpcPosition.x, tempNpcPosition.y - tileMap->getTileSize().height);
+                        movePositon = ccp(tempNpcPosition.x, tempNpcPosition.y - tileMap->getTileSize().height*SIZE_RATIO_Y);
                         if (canMoveDown(tempNpcPosition, tileMap, walls)) {
                             if (numMove == 2) {
                                 firstStep = movePositon;

@@ -55,7 +55,7 @@ bool Level1Scene::init(int lvl)
     char tileMapPath[15] = {0};
     sprintf(tileMapPath, "lvl%d/map.tmx", lvl);
     tileMap->initWithTMXFile(tileMapPath);
-    tileMap->setPosition(100* SIZE_RATIO_X, 0*SIZE_RATIO_Y);
+    tileMap->setPosition(0* SIZE_RATIO_X, 0*SIZE_RATIO_Y);
     background = tileMap->layerNamed("Background");
     // scale
 //    background->setPosition(0, 0);
@@ -84,7 +84,7 @@ bool Level1Scene::init(int lvl)
     int x2 = ((CCString)*exitPointDic->valueForKey("x")).intValue();
     int y2 =  ((CCString)*exitPointDic->valueForKey("y")).intValue();
 //    exitPointCoord = tileCoordForPosition(ccp(x2,y2));
-    exitPointCoord = tileCoordForPosition(ccp((x2 + tileMap->getPositionX())*SIZE_RATIO_X, (y2 + tileMap->getPositionY())*SIZE_RATIO_Y));
+    exitPointCoord = tileCoordForPosition(ccp(x2*SIZE_RATIO_X + tileMap->getPositionX(), y2*SIZE_RATIO_Y + tileMap->getPositionY()));
     
     // init player: position and charWall at this position
     CCDictionary *playerSpawnPoint = objectGroup->objectNamed("PlayerSpawnPoint");
