@@ -75,6 +75,9 @@ bool NPC1::canMoveUp(CCPoint pMovePosition, CCTMXTiledMap* tileMap, CCTMXLayer *
 }
 
 bool NPC1::makeMove(cocos2d::CCPoint pPlayerPosition, cocos2d::CCTMXTiledMap *tileMap, cocos2d::CCTMXLayer *walls){
+    if (this == NULL) {
+        return false;
+    }
     setIsMove(true);
     int numMove = 2;
     CCPoint playerTileCoord = tileCoordForPosition(pPlayerPosition, tileMap);

@@ -7,7 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DE681B3A1804F63200EBA5B2 /* NPC2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE681B381804F63200EBA5B2 /* NPC2.cpp */; };
+		DE7571181803DBA5008C8BA1 /* lvl3 in Resources */ = {isa = PBXBuildFile; fileRef = DE7571171803DBA5008C8BA1 /* lvl3 */; };
 		DE998AFD17FBCAEA0045B0C7 /* NPC1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DE998AFB17FBCAEA0045B0C7 /* NPC1.cpp */; };
+		DE99C72B18053BB900D5081F /* lvl4 in Resources */ = {isa = PBXBuildFile; fileRef = DE99C72A18053BB900D5081F /* lvl4 */; };
 		DEB1B3E617F927610088D45D /* Level1Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEB1B3E417F927610088D45D /* Level1Scene.cpp */; };
 		DEB1B3E817F929D70088D45D /* lvl1 in Resources */ = {isa = PBXBuildFile; fileRef = DEB1B3E717F929D70088D45D /* lvl1 */; };
 		DEB1B3EB17F94F4D0088D45D /* GameSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEB1B3E917F94F4D0088D45D /* GameSprite.cpp */; };
@@ -275,8 +278,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		DE681B381804F63200EBA5B2 /* NPC2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NPC2.cpp; path = Classes/NPC2.cpp; sourceTree = "<group>"; };
+		DE681B391804F63200EBA5B2 /* NPC2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NPC2.h; path = Classes/NPC2.h; sourceTree = "<group>"; };
+		DE7571171803DBA5008C8BA1 /* lvl3 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = lvl3; path = Resources/lvl3; sourceTree = "<group>"; };
 		DE998AFB17FBCAEA0045B0C7 /* NPC1.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NPC1.cpp; path = Classes/NPC1.cpp; sourceTree = "<group>"; };
 		DE998AFC17FBCAEA0045B0C7 /* NPC1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NPC1.h; path = Classes/NPC1.h; sourceTree = "<group>"; };
+		DE99C72A18053BB900D5081F /* lvl4 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = lvl4; path = Resources/lvl4; sourceTree = "<group>"; };
 		DEB1B3E417F927610088D45D /* Level1Scene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Level1Scene.cpp; path = Classes/Level1Scene.cpp; sourceTree = "<group>"; };
 		DEB1B3E517F927610088D45D /* Level1Scene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Level1Scene.h; path = Classes/Level1Scene.h; sourceTree = "<group>"; };
 		DEB1B3E717F929D70088D45D /* lvl1 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = lvl1; path = Resources/lvl1; sourceTree = "<group>"; };
@@ -918,6 +925,8 @@
 		DECF172017F9251500CB6D8A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				DE99C72A18053BB900D5081F /* lvl4 */,
+				DE7571171803DBA5008C8BA1 /* lvl3 */,
 				DEB43BBA17FEB0AF00CF64C0 /* lvl2 */,
 				DEB1B3E717F929D70088D45D /* lvl1 */,
 				DECF172117F9251500CB6D8A /* CloseNormal.png */,
@@ -1995,6 +2004,8 @@
 			isa = PBXGroup;
 			children = (
 				DECF1A8217F9252100CB6D8A /* AppDelegate.h */,
+				DE681B381804F63200EBA5B2 /* NPC2.cpp */,
+				DE681B391804F63200EBA5B2 /* NPC2.h */,
 				DECF1A8317F9252100CB6D8A /* AppDelegate.cpp */,
 				DE998AFB17FBCAEA0045B0C7 /* NPC1.cpp */,
 				DEE42B8F180262EA00053F4B /* MediumScene.cpp */,
@@ -2075,6 +2086,8 @@
 				DECF193C17F9251D00CB6D8A /* project.pbxproj in Resources */,
 				DEB1B3E817F929D70088D45D /* lvl1 in Resources */,
 				DEB43BBB17FEB0AF00CF64C0 /* lvl2 in Resources */,
+				DE7571181803DBA5008C8BA1 /* lvl3 in Resources */,
+				DE99C72B18053BB900D5081F /* lvl4 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2325,6 +2338,7 @@
 				DEB1B3EE17F951970088D45D /* Player.cpp in Sources */,
 				DE998AFD17FBCAEA0045B0C7 /* NPC1.cpp in Sources */,
 				DEE42B91180262EB00053F4B /* MediumScene.cpp in Sources */,
+				DE681B3A1804F63200EBA5B2 /* NPC2.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

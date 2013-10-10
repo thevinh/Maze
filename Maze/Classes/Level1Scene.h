@@ -13,6 +13,7 @@
 #include "Player.h"
 #include "GameSprite.h"
 #include "NPC1.h"
+#include "NPC2.h"
 
 using namespace cocos2d;
 
@@ -37,6 +38,7 @@ public:
     virtual void update(float dt);
     
     void changeScene();
+    void resetMap();
 
     
 private:
@@ -45,12 +47,14 @@ private:
     CCTMXLayer *walls;
     Player *player;
     NPC1 *npc1;
+    NPC2 *npc2;
     CCPoint exitPointCoord;
     bool isGameOver;
     int _lvl;
     float SIZE_RATIO;
     float SIZE_RATIO_X;
     float SIZE_RATIO_Y;
+    CCSprite* resetButton;
 
 };
 
