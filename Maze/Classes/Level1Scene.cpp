@@ -67,7 +67,7 @@ bool Level1Scene::init(int lvl)
     //scale
     walls->setScaleX(SIZE_RATIO_X);
     walls->setScaleY(SIZE_RATIO_Y);
-    walls->setVisible(true);
+    walls->setVisible(false);
     
     // add player
     CCTMXObjectGroup *objectGroup = tileMap->objectGroupNamed("Objects");
@@ -76,15 +76,22 @@ bool Level1Scene::init(int lvl)
         return false;
     }
     
-    //init exit point
+    
     // tile map position has multiplied with the ratio so when we calculate player and
     // npc1 position, we just plus with tile map position, we
     // dont need to multiplied wih the ratio anymore
+    
+    //init exit point
     CCDictionary *exitPointDic = objectGroup->objectNamed("ExitPoint");
-    int x2 = ((CCString)*exitPointDic->valueForKey("x")).intValue();
-    int y2 =  ((CCString)*exitPointDic->valueForKey("y")).intValue();
+    int xE = ((CCString)*exitPointDic->valueForKey("x")).intValue();
+    int yE =  ((CCString)*exitPointDic->valueForKey("y")).intValue();
 //    exitPointCoord = tileCoordForPosition(ccp(x2,y2));
-    exitPointCoord = tileCoordForPosition(ccp(x2*SIZE_RATIO_X + tileMap->getPositionX(), y2*SIZE_RATIO_Y + tileMap->getPositionY()));
+    CCSprite *exitPointImg = CCSprite::create("lvl1/exitpoint.png");
+    exitPointImg->setPosition(ccp(xE*SIZE_RATIO_X + tileMap->getPositionX(), yE*SIZE_RATIO_Y + tileMap->getPositionY()));
+    exitPointImg->setScaleX(SIZE_RATIO_X);
+    exitPointImg->setScaleY(SIZE_RATIO_Y);
+    this->addChild(exitPointImg);
+    exitPointCoord = tileCoordForPosition(ccp(xE*SIZE_RATIO_X + tileMap->getPositionX(), yE*SIZE_RATIO_Y + tileMap->getPositionY()));
     
     // init player: position and charWall at this position
     CCDictionary *playerSpawnPoint = objectGroup->objectNamed("PlayerSpawnPoint");
@@ -110,34 +117,67 @@ bool Level1Scene::init(int lvl)
             player->setCharWall(abc.intValue());
         }
     }
+    player->setIsMove(false);
 
-    // init NPC
+    // init NPC1
     CCDictionary *npc1SpawnPoint = objectGroup->objectNamed("NPC1SpawnPoint");
-    int x1 = ((CCString)*npc1SpawnPoint->valueForKey("x")).intValue();
-    int y1 = ((CCString)*npc1SpawnPoint->valueForKey("y")).intValue();
-    
-    npc1 = (NPC1*)GameSprite::gameSpriteWithFile("lvl1/mummy.png");
-//    npc1->setPosition(ccp(x1, y1));
-    npc1->setPosition(ccp(x1*SIZE_RATIO_X + tileMap->getPositionX(), y1*SIZE_RATIO_Y + tileMap->getPositionY()));
-    npc1->setScaleX(SIZE_RATIO_X);
-    npc1->setScaleY(SIZE_RATIO_Y);
-    this->addChild(npc1);
-    tileCoord = this->tileCoordForPosition(npc1->getPosition());
-    tileGid = walls->tileGIDAt(tileCoord);
-    if (tileGid) {
-        CCDictionary *properties = tileMap->propertiesForGID(tileGid);
-        if (properties) {
-            CCString *wall = new CCString();
-            *wall = *properties->valueForKey("Wall");
-            CCString abc = *wall;
-            CCLog("%d", abc.intValue());
-            npc1->setCharWall(abc.intValue());
+    if (npc1SpawnPoint != NULL) {
+        int x1 = ((CCString)*npc1SpawnPoint->valueForKey("x")).intValue();
+        int y1 = ((CCString)*npc1SpawnPoint->valueForKey("y")).intValue();
+        
+        npc1 = (NPC1*)GameSprite::gameSpriteWithFile("lvl1/mummy.png");
+        //    npc1->setPosition(ccp(x1, y1));
+        npc1->setPosition(ccp(x1*SIZE_RATIO_X + tileMap->getPositionX(), y1*SIZE_RATIO_Y + tileMap->getPositionY()));
+        npc1->setScaleX(SIZE_RATIO_X);
+        npc1->setScaleY(SIZE_RATIO_Y);
+        this->addChild(npc1);
+        tileCoord = this->tileCoordForPosition(npc1->getPosition());
+        tileGid = walls->tileGIDAt(tileCoord);
+        if (tileGid) {
+            CCDictionary *properties = tileMap->propertiesForGID(tileGid);
+            if (properties) {
+                CCString *wall = new CCString();
+                *wall = *properties->valueForKey("Wall");
+                CCString abc = *wall;
+                CCLog("%d", abc.intValue());
+                npc1->setCharWall(abc.intValue());
+            }
         }
+        npc1->setIsMove(false);
     }
 
-    player->setIsMove(false);
-    npc1->setIsMove(false);
-    // init
+    // init npc 2
+    CCDictionary *npc2SpawnPoint = objectGroup->objectNamed("NPC2SpawnPoint");
+    if (npc2SpawnPoint != NULL) {
+        int x2 = ((CCString)*npc2SpawnPoint->valueForKey("x")).intValue();
+        int y2 = ((CCString)*npc2SpawnPoint->valueForKey("y")).intValue();
+        
+        npc2 = (NPC2*)GameSprite::gameSpriteWithFile("lvl1/redmummy.png");
+        //    npc1->setPosition(ccp(x1, y1));
+        npc2->setPosition(ccp(x2*SIZE_RATIO_X + tileMap->getPositionX(), y2*SIZE_RATIO_Y + tileMap->getPositionY()));
+        npc2->setScaleX(SIZE_RATIO_X);
+        npc2->setScaleY(SIZE_RATIO_Y);
+        this->addChild(npc2);
+        tileCoord = this->tileCoordForPosition(npc2->getPosition());
+        tileGid = walls->tileGIDAt(tileCoord);
+        if (tileGid) {
+            CCDictionary *properties = tileMap->propertiesForGID(tileGid);
+            if (properties) {
+                CCString *wall = new CCString();
+                *wall = *properties->valueForKey("Wall");
+                CCString abc = *wall;
+                CCLog("%d", abc.intValue());
+                npc2->setCharWall(abc.intValue());
+            }
+        }
+        npc2->setIsMove(false);
+    }
+    
+    // init reset button
+    resetButton = CCSprite::create("lvl1/resetButton.png");
+    resetButton->cocos2d::CCNode::setPosition(screenSize.width - resetButton->getContentSize().width/2, resetButton->getContentSize().height/2);
+    this->addChild(resetButton);
+    
     this->setTouchEnabled(true);
     return true;
 }
@@ -160,15 +200,27 @@ void Level1Scene::ccTouchEnded(cocos2d::CCTouch *touch, cocos2d::CCEvent *event)
     CCPoint touchLocation = touch->getLocationInView();
     touchLocation = CCDirector::sharedDirector()->convertToGL(touchLocation);
     touchLocation = this->convertToNodeSpace(touchLocation);
-    if (!player->getIsMove() && !npc1->getIsMove() && !isGameOver) {
+    if (resetButton->boundingBox().containsPoint(touchLocation)) {
+        CCLog("touch reset button");
+        Level1Scene::resetMap();
+    }
+    else if (!player->getIsMove() && !isGameOver
+        && ( (npc1 == NULL) || (npc1 != NULL && !npc1->getIsMove()) )
+        && ( (npc2 == NULL) || (npc2 != NULL && !npc2->getIsMove()) )
+        ) {
         player->makeMove(touchLocation, tileMap, walls);
         this->schedule(schedule_selector(Level1Scene::update) , 0.3f);
     }
+    
+    
 }
 
 void Level1Scene::update(float dt){
-    if (!player->getIsMove() && !npc1->getIsMove()) {
-        isGameOver = npc1->makeMove(player->getPosition(), tileMap, walls);
+    if (!player->getIsMove()
+        && ( (npc1 == NULL) || (npc1 != NULL && !npc1->getIsMove()) )
+        && ( (npc2 == NULL) || (npc2 != NULL && !npc2->getIsMove()) )
+        ) {
+        isGameOver = (npc1->makeMove(player->getPosition(), tileMap, walls) | npc2->makeMove(player->getPosition(), tileMap, walls));
         if (!isGameOver && tileCoordForPosition(player->getCharPosition()).x == exitPointCoord.x
                         && tileCoordForPosition(player->getCharPosition()).y == exitPointCoord.y) {
             isGameOver = true;
@@ -219,6 +271,73 @@ void Level1Scene::changeScene(){
 
 Level1Scene::~Level1Scene(){
     
+}
+
+void Level1Scene::resetMap(){
+    isGameOver = false;
+    CCTMXObjectGroup *objectGroup = tileMap->objectGroupNamed("Objects");
+    
+    // reset player position, charWall, move status
+    player->stopAllActions();
+    CCDictionary *playerSpawnPoint = objectGroup->objectNamed("PlayerSpawnPoint");
+    int x = ((CCString)*playerSpawnPoint->valueForKey("x")).intValue();
+    int y = ((CCString)*playerSpawnPoint->valueForKey("y")).intValue();
+    player->setPosition(ccp(x*SIZE_RATIO_X + tileMap->getPositionX(), y*SIZE_RATIO_Y + tileMap->getPositionY()));
+    player->setIsMove(false);
+    CCPoint tileCoord = this->tileCoordForPosition(player->getPosition());
+    int tileGid = walls->tileGIDAt(tileCoord);
+    if (tileGid) {
+        CCDictionary *properties = tileMap->propertiesForGID(tileGid);
+        if (properties) {
+            CCString *wall = new CCString();
+            *wall = *properties->valueForKey("Wall");
+            CCString abc = *wall;
+            CCLog("%d", abc.intValue());
+            player->setCharWall(abc.intValue());
+        }
+    }
+    
+    if (npc1 != NULL) {
+        npc1->stopAllActions();
+        CCDictionary *npc1SpawnPoint = objectGroup->objectNamed("NPC1SpawnPoint");
+        int x1 = ((CCString)*npc1SpawnPoint->valueForKey("x")).intValue();
+        int y1 = ((CCString)*npc1SpawnPoint->valueForKey("y")).intValue();
+        npc1->setPosition(ccp(x1*SIZE_RATIO_X + tileMap->getPositionX(), y1*SIZE_RATIO_Y + tileMap->getPositionY()));
+        npc1->setIsMove(false);
+        tileCoord = this->tileCoordForPosition(npc1->getPosition());
+        tileGid = walls->tileGIDAt(tileCoord);
+        if (tileGid) {
+            CCDictionary *properties = tileMap->propertiesForGID(tileGid);
+            if (properties) {
+                CCString *wall = new CCString();
+                *wall = *properties->valueForKey("Wall");
+                CCString abc = *wall;
+                CCLog("%d", abc.intValue());
+                npc1->setCharWall(abc.intValue());
+            }
+        }
+    }
+    
+    if (npc2 != NULL) {
+        npc2->stopAllActions();
+        CCDictionary *npc2SpawnPoint = objectGroup->objectNamed("NPC2SpawnPoint");
+        int x2 = ((CCString)*npc2SpawnPoint->valueForKey("x")).intValue();
+        int y2 = ((CCString)*npc2SpawnPoint->valueForKey("y")).intValue();
+        npc2->setPosition(ccp(x2*SIZE_RATIO_X + tileMap->getPositionX(), y2*SIZE_RATIO_Y + tileMap->getPositionY()));
+        npc2->setIsMove(false);
+        tileCoord = this->tileCoordForPosition(npc2->getPosition());
+        tileGid = walls->tileGIDAt(tileCoord);
+        if (tileGid) {
+            CCDictionary *properties = tileMap->propertiesForGID(tileGid);
+            if (properties) {
+                CCString *wall = new CCString();
+                *wall = *properties->valueForKey("Wall");
+                CCString abc = *wall;
+                CCLog("%d", abc.intValue());
+                npc2->setCharWall(abc.intValue());
+            }
+        }
+    }
 }
 
 Level1Scene* Level1Scene::create(int lvl){

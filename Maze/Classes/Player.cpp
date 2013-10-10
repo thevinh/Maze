@@ -82,8 +82,8 @@ void Player::makeMove(cocos2d::CCPoint touchLocation, cocos2d::CCTMXTiledMap *ti
         }
     }
     
-    if (playerPos.x - tileMap->getPositionX() <= (tileMap->getMapSize().width * tileMap->getTileSize().width) &&
-        playerPos.y - tileMap->getPositionY() <= (tileMap->getMapSize().height * tileMap->getTileSize().height) &&
+    if (playerPos.x - tileMap->getPositionX() <= (tileMap->getMapSize().width * tileMap->getTileSize().width * SIZE_RATIO_X) &&
+        playerPos.y - tileMap->getPositionY() <= (tileMap->getMapSize().height * tileMap->getTileSize().height * SIZE_RATIO_Y) &&
         playerPos.y - tileMap->getPositionY() >= 0 &&
         playerPos.x - tileMap->getPositionX() >= 0 )
     {
