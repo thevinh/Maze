@@ -14,7 +14,9 @@
 #include "GameSprite.h"
 #include "NPC1.h"
 #include "NPC2.h"
+#include "TileObject.h"
 
+using namespace std;
 using namespace cocos2d;
 
 class Level1Scene : public cocos2d::CCLayer
@@ -39,6 +41,10 @@ public:
     
     void changeScene();
     void resetMap();
+    
+    // test about Shortest path problem
+    // next return an array of all tiles that can come from tile u
+    CCArray* next(TileObject* u, TileObject** tileArray);
 
     
 private:
@@ -55,6 +61,7 @@ private:
     float SIZE_RATIO_X;
     float SIZE_RATIO_Y;
     CCSprite* resetButton;
+    TileObject** tileArray;
 
 };
 
