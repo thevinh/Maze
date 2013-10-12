@@ -173,6 +173,34 @@ bool Level1Scene::init(int lvl)
         npc2->setIsMove(false);
     }
     
+    // init tile array
+    int mazeRow = tileMap->getMapSize().height;
+    int mazeCol = tileMap->getMapSize().width;
+    if (true) {
+        tileArray = new TileObject * [mazeRow];
+        for (int i = 0; i < mazeRow; i++) {
+            tileArray[i] = new TileObject [mazeCol];
+            tileArray[i]->retain();
+        }
+        
+        for (int i = 0; i < mazeRow; i++) {
+            for (int j = 0; j < mazeCol; j++) {
+                // wall
+                tileGid = walls->tileGIDAt(ccp(j, i));
+                if (tileGid) {
+                    CCDictionary *properties = tileMap->propertiesForGID(tileGid);
+                    if (properties) {
+                        CCString *wall = new CCString();
+                        *wall = *properties->valueForKey("Wall");
+                        CCString abc = *wall;
+                        tileArray[i][j] = TileObject(j, i, abc.intValue());
+                        CCLog("Wall properties cua x: %d , y: %d la %d", j,i, tileArray[i][j].getWall());
+                    }
+                }
+            }
+        }
+    }
+    
     // init reset button
     resetButton = CCSprite::create("lvl1/resetButton.png");
     resetButton->cocos2d::CCNode::setPosition(screenSize.width - resetButton->getContentSize().width/2, resetButton->getContentSize().height/2);
@@ -220,6 +248,17 @@ void Level1Scene::update(float dt){
         && ( (npc1 == NULL) || (npc1 != NULL && !npc1->getIsMove()) )
         && ( (npc2 == NULL) || (npc2 != NULL && !npc2->getIsMove()) )
         ) {
+        
+        // test tile array
+        int mazeRow = tileMap->getMapSize().height;
+        int mazeCol = tileMap->getMapSize().width;
+        for (int i = 0; i < mazeRow; i++ ) {
+            for (int j = 0; j < mazeCol; j++) {
+//                int wall = tileArray[i][j]->getWall();
+//                CCLog("Wall properties cua x: %d , y: %d la %d", j,i, wall);
+            }
+        }
+        
         isGameOver = (npc1->makeMove(player->getPosition(), tileMap, walls) | npc2->makeMove(player->getPosition(), tileMap, walls));
         if (!isGameOver && tileCoordForPosition(player->getCharPosition()).x == exitPointCoord.x
                         && tileCoordForPosition(player->getCharPosition()).y == exitPointCoord.y) {
@@ -351,4 +390,8 @@ Level1Scene* Level1Scene::create(int lvl){
         pRet = NULL;
         return NULL;
     }
+}
+
+CCArray* Level1Scene::next(TileObject* u, TileObject **tileArray){
+    
 }
