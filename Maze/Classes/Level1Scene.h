@@ -15,6 +15,7 @@
 #include "NPC1.h"
 #include "NPC2.h"
 #include "TileObject.h"
+#include <queue.h>
 
 using namespace std;
 using namespace cocos2d;
@@ -44,7 +45,10 @@ public:
     
     // test about Shortest path problem
     // next return an array of all tiles that can come from tile u
-    CCArray* next(TileObject* u, TileObject** tileArray);
+    CCArray* next(TileObject* u, TileObject** tileArray, CCSize mapSize);
+    
+    // Breadth-first search
+    std::queue<TileObject*>* breadthFirstSearch(CCPoint playerPos, CCPoint npcPos, TileObject** tileArray, CCSize mapSize);
 
     
 private:
@@ -62,7 +66,7 @@ private:
     float SIZE_RATIO_Y;
     CCSprite* resetButton;
     TileObject** tileArray;
-
+    CCSize mapSize;
 };
 
 #endif /* defined(__Maze__Level1Scene__) */

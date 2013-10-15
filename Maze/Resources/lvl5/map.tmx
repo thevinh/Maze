@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="6" height="6" tilewidth="100" tileheight="100">
+ <tileset firstgid="1" name="map" tilewidth="100" tileheight="100">
+  <image source="../lvl4/map.jpg" width="600" height="600"/>
+ </tileset>
+ <tileset firstgid="37" name="wall_tiles" tilewidth="100" tileheight="100">
+  <image source="../lvl1/wall_tiles.png" width="400" height="100"/>
+  <tile id="0">
+   <properties>
+    <property name="Wall" value="0"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="Wall" value="1"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="Wall" value="2"/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="Wall" value="3"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Background" width="6" height="6">
+  <data encoding="base64" compression="zlib">
+   eJwNw4kSQlAAAMAnlChypCRH8f/faHdmoxDCydjE1LMXM6/mFt68W1r5sLaxtfNp78u3gx9Hv07OLq7+/Lu5ewCEYAKb
+  </data>
+ </layer>
+ <objectgroup name="Objects" width="6" height="6">
+  <object name="PlayerSpawnPoint" x="351" y="45"/>
+  <object name="NPC3SpawnPoint" x="149" y="251"/>
+  <object x="348" y="552"/>
+  <object name="ExitPoint" x="348" y="552"/>
+ </objectgroup>
+ <layer name="Walls" width="6" height="6">
+  <data encoding="base64" compression="zlib">
+   eJxTY2BgUIViDSRaHYjVkORUkfhqSPJqWNSpo6lXRxJD1o+OQfYCAIsXBVs=
+  </data>
+ </layer>
+</map>

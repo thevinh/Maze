@@ -11,6 +11,7 @@
 #include "SimpleAudioEngine.h"
 #include "Player.h"
 #include "MediumScene.h"
+#include <queue>
 
 using namespace std;
 using namespace cocos2d;
@@ -186,21 +187,21 @@ bool Level1Scene::init(int lvl)
         for (int i = 0; i < mazeRow; i++) {
             for (int j = 0; j < mazeCol; j++) {
                 // wall
-                tileGid = walls->tileGIDAt(ccp(j, i));
+                tileGid = walls->tileGIDAt(ccp(i, j));
                 if (tileGid) {
                     CCDictionary *properties = tileMap->propertiesForGID(tileGid);
                     if (properties) {
                         CCString *wall = new CCString();
                         *wall = *properties->valueForKey("Wall");
                         CCString abc = *wall;
-                        tileArray[i][j] = TileObject(j, i, abc.intValue());
-                        CCLog("Wall properties cua x: %d , y: %d la %d", j,i, tileArray[i][j].getWall());
+                        tileArray[i][j] = TileObject(i, j, abc.intValue());
+                        CCLog("Wall properties cua tilearray i: %d j: %d la x: %d , y: %d la %d",i,j, tileArray[i][j].getXCoord(), tileArray[i][j].getYCoord(), tileArray[i][j].getWall());
                     }
                 }
             }
         }
     }
-    
+    mapSize = tileMap->getMapSize();
     // init reset button
     resetButton = CCSprite::create("lvl1/resetButton.png");
     resetButton->cocos2d::CCNode::setPosition(screenSize.width - resetButton->getContentSize().width/2, resetButton->getContentSize().height/2);
@@ -238,6 +239,16 @@ void Level1Scene::ccTouchEnded(cocos2d::CCTouch *touch, cocos2d::CCEvent *event)
         ) {
         player->makeMove(touchLocation, tileMap, walls);
         this->schedule(schedule_selector(Level1Scene::update) , 0.3f);
+        
+        // test next function
+        CCPoint touchCoord = tileCoordForPosition(touchLocation);
+        TileObject* u = &tileArray[(int)touchCoord.x][(int)touchCoord.y];
+        CCArray* nextTileArray = next(u, tileArray, mapSize);
+        CCObject *obj;
+        CCARRAY_FOREACH(nextTileArray, obj){
+            TileObject* u = dynamic_cast<TileObject*>(obj);
+            CCLog("Wall properties trong next array cua x: %d , y: %d la %d", u->getXCoord(), u->getYCoord(), u->getWall());
+        }
     }
     
     
@@ -248,16 +259,16 @@ void Level1Scene::update(float dt){
         && ( (npc1 == NULL) || (npc1 != NULL && !npc1->getIsMove()) )
         && ( (npc2 == NULL) || (npc2 != NULL && !npc2->getIsMove()) )
         ) {
-        
-        // test tile array
-        int mazeRow = tileMap->getMapSize().height;
-        int mazeCol = tileMap->getMapSize().width;
-        for (int i = 0; i < mazeRow; i++ ) {
-            for (int j = 0; j < mazeCol; j++) {
-//                int wall = tileArray[i][j]->getWall();
-//                CCLog("Wall properties cua x: %d , y: %d la %d", j,i, wall);
-            }
-        }
+//        
+//        // test tile array
+//        int mazeRow = tileMap->getMapSize().height;
+//        int mazeCol = tileMap->getMapSize().width;
+//        for (int i = 0; i < mazeRow; i++ ) {
+//            for (int j = 0; j < mazeCol; j++) {
+////                int wall = tileArray[i][j]->getWall();
+////                CCLog("Wall properties cua x: %d , y: %d la %d", j,i, wall);
+//            }
+//        }
         
         isGameOver = (npc1->makeMove(player->getPosition(), tileMap, walls) | npc2->makeMove(player->getPosition(), tileMap, walls));
         if (!isGameOver && tileCoordForPosition(player->getCharPosition()).x == exitPointCoord.x
@@ -392,6 +403,80 @@ Level1Scene* Level1Scene::create(int lvl){
     }
 }
 
-CCArray* Level1Scene::next(TileObject* u, TileObject **tileArray){
+CCArray* Level1Scene::next(TileObject* u, TileObject **tileArray, CCSize mapSize){
+    CCArray* nextArray = new CCArray;
+    nextArray->autorelease();
+    int x = u->getXCoord();
+    int y = u->getYCoord();
+    // left
+    int x1, y1;
+    x1 = x - 1;
+    y1 = y;
+    if ( (x1 >= 0 && x1 < mapSize.width) &&
+         (y1 >= 0 && y1 < mapSize.height) &&
+         (tileArray[x1][y1].getWall() % 2) == 0) {
+        TileObject* tile = &tileArray[x1][y1];
+        nextArray->addObject(tile);
+    }
     
+    //up
+    x1 = x;
+    y1 = y -1;
+    if ( (x1 >= 0 && x1 < mapSize.width) &&
+        (y1 >= 0 && y1 < mapSize.height) &&
+        tileArray[x1][y1].getWall() < 2 ) {
+        TileObject* tile = &tileArray[x1][y1];
+        nextArray->addObject(tile);
+    }
+    
+    //right
+    x1 = x + 1;
+    y1 = y;
+    if ( (x1 >= 0 && x1 < mapSize.width) &&
+        (y1 >= 0 && y1 < mapSize.height) &&
+        (u->getWall() % 2) == 0 ) {
+        TileObject* tile = &tileArray[x1][y1];
+        nextArray->addObject(tile);
+    }
+    
+    //down
+    x1 = x;
+    y1 = y + 1;
+    if ( (x1 >= 0 && x1 < mapSize.width) &&
+        (y1 >= 0 && y1 < mapSize.height) &&
+         (u->getWall() < 2) ) {
+        TileObject* tile = &tileArray[x1][y1];
+        nextArray->addObject(tile);
+    }
+
+    
+    return nextArray;
+}
+
+std::queue<TileObject*>* Level1Scene::breadthFirstSearch(cocos2d::CCPoint playerPos, cocos2d::CCPoint npcPos, TileObject **tileArray, cocos2d::CCSize mapSize){
+    CCPoint npcCoord = tileCoordForPosition(npcPos);
+    CCPoint playerCoord = tileCoordForPosition(playerPos);
+    std::queue<TileObject*>* listCheckedTiles = new std::queue<TileObject*>;
+    TileObject* u = &tileArray[(int)npcCoord.x][(int)npcCoord.y];
+    u->setPreTile(NULL);
+    u->setIsCheck(true);
+    listCheckedTiles->push(u);
+    while (!listCheckedTiles->empty()) {
+        TileObject* v = listCheckedTiles->front();
+        CCArray* nextArrayTile = next(v, tileArray, mapSize);
+        CCObject* obj;
+        CCARRAY_FOREACH(nextArrayTile, obj){
+            TileObject* u = dynamic_cast<TileObject*>(obj);
+            if (u->getIsCheck() == false) {
+                u->setIsCheck(true);
+                u->setPreTile(v);
+                listCheckedTiles->push(u);
+                if (u->getXCoord() == playerCoord.x && u->getYCoord() == playerCoord.y) {
+                    return listCheckedTiles;
+                }
+            }
+        }
+        
+    }
+    return NULL;
 }
