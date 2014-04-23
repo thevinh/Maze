@@ -35,6 +35,7 @@ CCScene* Level1Scene::scene(int lvl)
 // on "init" you need to initialize your instance
 bool Level1Scene::init(int lvl)
 {
+	int abcdef = 6;
     //////////////////////////////
     // 1. super init first
     if ( !CCLayer::init() )

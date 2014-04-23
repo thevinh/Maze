@@ -21,6 +21,7 @@ NPC2::~NPC2(){
 
 bool NPC2::canMoveRight(cocos2d::CCPoint pCharPosition, cocos2d::CCTMXTiledMap *tileMap, cocos2d::CCTMXLayer *walls){
     int pCharWall;
+	int abcdef = 6;
     CCPoint tileCoord = this->tileCoordForPosition(pCharPosition,tileMap);
     int tileGid = walls->tileGIDAt(tileCoord);
     if (tileGid) {
